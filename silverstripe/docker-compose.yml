@@ -1,0 +1,44 @@
+version: '3'
+services:
+  web:
+    image: brettt89/silverstripe-web
+    working_dir: /var/www
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8080:80"
+    environment:
+      - DOCUMENT_ROOT=/var/www/html/public
+      - SS_TRUSTED_PROXY_IPS=*
+      - SS_ENVIRONMENT_TYPE=dev
+      - SS_DATABASE_SERVER=database
+      - SS_DATABASE_NAME=FirstOrDefault
+      - SS_DATABASE_USERNAME=root
+      - SS_DATABASE_PASSWORD=root
+      - SS_DEFAULT_ADMIN_USERNAME=admin
+      - SS_DEFAULT_ADMIN_PASSWORD=password
+  database:
+    image: mysql
+    volumes:
+      - db-data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: FirstOrDefault
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: password
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: FOD_PMA_LOC
+    links:
+      - database
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
+
+volumes:
+  db-data:

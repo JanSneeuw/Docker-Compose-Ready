@@ -6,3 +6,6 @@ To add your own files to the wordpress project, map them under the wordpress con
 For example, if you wish to use your own wp-content directory, your volumes would look as follows:
 volumes:
 - ${PWD}/wp-content:/var/www/html/wp-content
+
+## Tested on:
+- M1 Pro
